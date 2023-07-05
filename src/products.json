@@ -1,0 +1,13 @@
+[
+  {
+    "title": "Product 2",
+    "description": "Description 2",
+    "price": 10,
+    "thumbnail": "path/to/image2.jpg",
+    "code": "P2",
+    "stock": 100,
+    "status": true,
+    "category": "a2",
+    "id": 1
+  }
+]
