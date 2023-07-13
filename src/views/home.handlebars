@@ -1,0 +1,67 @@
+<div class="container">
+    <h1>Formulario de Producto</h1>
+
+    <form action="/api/products" method="POST">
+        <div class="form-group">
+            <label for="title">Título:</label>
+            <input type="text" id="title" name="title" required />
+        </div>
+
+        <div class="form-group">
+            <label for="description">Descripción:</label>
+            <input type="text" id="description" name="description" required />
+        </div>
+
+        <div class="form-group">
+            <label for="code">Código:</label>
+            <input type="text" id="code" name="code" required />
+        </div>
+
+        <div class="form-group">
+            <label for="price">Precio:</label>
+            <input type="number" id="price" name="price" required />
+        </div>
+
+        <div class="form-group">
+            <label for="status">Estado:</label>
+            <input type="checkbox" id="status" name="status" checked />
+            <label class="checkbox-label" for="status">Disponible</label>
+        </div>
+
+        <div class="form-group">
+            <label for="stock">Stock:</label>
+            <input type="number" id="stock" name="stock" required />
+        </div>
+
+        <div class="form-group">
+            <label for="category">Categoría:</label>
+            <input type="text" id="category" name="category" required />
+        </div>
+
+        <div class="form-group">
+            <label for="thumbnail">Miniaturas:</label>
+            <input type="file" id="thumbnail" name="thumbnail[]" multiple />
+            <label class="file-input-label" for="thumbnail">Seleccionar archivos</label>
+        </div>
+
+        <input type="submit" value="Enviar" />
+    </form>
+</div>
+
+
+
+<h1>Lista de productos</h1>
+<ul>
+    {{#each response}}
+    <p>Producto ID:{{this.id}}</p>
+    <p>Título: {{this.title}}</p>
+    <p>Descripción: {{this.description}}</p>
+    <p>Código: {{this.code}}</p>
+    <p>Precio: {{this.price}}</p>
+    <p>Precio: {{this.status}}</p>
+    <p>Precio: {{this.stock}}</p>
+    <p>Precio: {{this.category}}</p>
+    <p>Precio: {{this.thumbnail}}</p>
+    <hr>
+    {{/each}}
+</ul>

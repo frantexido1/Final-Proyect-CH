@@ -8,9 +8,19 @@ products.get("/", async (req, res) => {
     const products = await productManager.getProducts();
     const limit = req.query.limit;
     const response = limit ? products.slice(0, limit) : products;
-    res.json(response);
+    res.render("home", { response });
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).send("Error al obtener los productos");
+  }
+});
+
+products.get("/realtimeproducts", async (req, res) => {
+  try {
+    const products = await productManager.getProducts();
+    io.emit("productsData", { products });
+    res.render("realTimeProducts", { products });
+  } catch (error) {
+    res.status(500).send("Error al obtener los productos");
   }
 });
 

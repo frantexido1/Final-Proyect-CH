@@ -1,13 +1,15 @@
 [
   {
-    "title": "Product 2",
-    "description": "Description 2",
-    "price": 10,
-    "thumbnail": "path/to/image2.jpg",
-    "code": "P2",
-    "stock": 100,
-    "status": true,
-    "category": "a2",
+    "title": "1",
+    "description": "1",
+    "code": "1",
+    "price": "1",
+    "status": "on",
+    "stock": "1",
+    "category": "1",
+    "thumbnail": [
+      ""
+    ],
     "id": 1
   }
 ]
