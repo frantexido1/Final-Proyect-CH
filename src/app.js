@@ -29,15 +29,3 @@ app.use("/api/products/", products);
 app.use("/api/cart/", carts);
 
 // Socket.io
-io.on("connection", (socket) => {
-  console.log("Cliente conectado");
-
-  socket.on("productsData", ({ products }) => {
-    const html = handlebars.render("realTimeProducts", { products });
-    socket.emit("updateProducts", { html });
-  });
-
-  socket.on("disconnect", () => {
-    console.log("Cliente desconectado");
-  });
-});

@@ -14,16 +14,6 @@ products.get("/", async (req, res) => {
   }
 });
 
-products.get("/realtimeproducts", async (req, res) => {
-  try {
-    const products = await productManager.getProducts();
-    io.emit("productsData", { products });
-    res.render("realTimeProducts", { products });
-  } catch (error) {
-    res.status(500).send("Error al obtener los productos");
-  }
-});
-
 products.get("/:pid", async (req, res) => {
   try {
     const pid = parseInt(req.params.pid);
@@ -44,7 +34,7 @@ products.post("/", async (req, res) => {
     if (!addedProduct) {
       res.status(404).json(`The code ${req.body.code} has already been used.`);
     } else {
-      res.status(201).json(["Product added to the database.", req.body]);
+      res.status(201).redirect("/api/products");
     }
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });

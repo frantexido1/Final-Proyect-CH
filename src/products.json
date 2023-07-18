@@ -1,12 +1,12 @@
 [
   {
-    "title": "1",
-    "description": "1",
-    "code": "1",
-    "price": "1",
+    "title": "product 1",
+    "description": "product1",
+    "code": "P1",
+    "price": "120",
     "status": "on",
-    "stock": "1",
-    "category": "1",
+    "stock": "120",
+    "category": "A1",
     "thumbnail": [
       ""
     ],
