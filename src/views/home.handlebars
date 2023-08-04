@@ -95,7 +95,7 @@
         <div>
             <label for="status">Estado:</label>
             <input type="checkbox" id="status" name="status" checked />
-            <label c for="status">Disponible</label>
+            <label for="status">Disponible</label>
         </div>
 
         <div>
@@ -130,9 +130,9 @@
     <th>Categoria</th>
     <th>Miniaturas</th>
 
-    {{#each response}}
+    {{#each products}}
     <tr>
-        <td>{{this.id}}</td>
+        <td>{{this._id}}</td>
         <td>{{this.title}}</td>
         <td>{{this.description}}</td>
         <td>{{this.code}}</td>
@@ -145,3 +145,26 @@
     {{/each}}
 
 </table>
+
+<script>
+    async function initializeCart() {
+        try {
+            const response = await fetch('/api/cart/', {
+                method: 'POST',
+                credentials: 'same-origin',
+            });
+
+            if (response.ok) {
+                const cart = await response.json();
+                console.log('Carrito del usuario:', cart);
+
+            } else {
+                console.error('Error al obtener el carrito:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error al realizar la solicitud:', error);
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', initializeCart);
+</script>

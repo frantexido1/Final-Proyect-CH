@@ -88,5 +88,4 @@ class ProductManager {
   }
 }
 
-const productManager = new ProductManager();
-module.exports = productManager;
+module.exports = ProductManager;

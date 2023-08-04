@@ -60,5 +60,4 @@ class CartManager {
   }
 }
 
-const cartManager = new CartManager();
-module.exports = cartManager;
+module.exports = CartManager;
