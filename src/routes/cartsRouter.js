@@ -3,9 +3,9 @@ const carts = Router();
 const CartManager = require("./Manager/MongoDB/cartManager");
 const cartManager = new CartManager();
 
-carts.get("/:cid", async (req, res) => {
+carts.get("/", async (req, res) => {
   try {
-    return await cartManager.getCartByID(req.params.cid);
+    res.send(await cartManager.getCarts());
   } catch (error) {
     res.status(500).json({ error });
   }
@@ -13,12 +13,35 @@ carts.get("/:cid", async (req, res) => {
 
 carts.post("/", async (req, res) => {
   try {
-    return await cartManager.createCart();
+    res.send(await cartManager.createCart());
   } catch (error) {
-    console.error("Error al manejar la solicitud del carrito:", error);
-    res
-      .status(500)
-      .json({ error: "Error al manejar la solicitud del carrito" });
+    res.status(500).json({ error });
+  }
+});
+
+carts.get("/:cid", async (req, res) => {
+  try {
+    res.send(await cartManager.getCartByID(req.params.cid));
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+});
+
+carts.put("/:cid/:pid", async (req, res) => {
+  try {
+    res.send(
+      await cartManager.addProductToCart(req.params.cid, req.params.pid)
+    );
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+});
+
+carts.delete("/:cid", async (req, res) => {
+  try {
+    res.send(await cartManager.deleteCart(req.params.cid));
+  } catch (error) {
+    res.status(500).json({ error });
   }
 });
 

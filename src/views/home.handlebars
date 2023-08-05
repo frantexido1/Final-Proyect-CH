@@ -146,25 +146,5 @@
 
 </table>
 
-<script>
-    async function initializeCart() {
-        try {
-            const response = await fetch('/api/cart/', {
-                method: 'POST',
-                credentials: 'same-origin',
-            });
-
-            if (response.ok) {
-                const cart = await response.json();
-                console.log('Carrito del usuario:', cart);
-
-            } else {
-                console.error('Error al obtener el carrito:', response.statusText);
-            }
-        } catch (error) {
-            console.error('Error al realizar la solicitud:', error);
-        }
-    }
-
-    window.addEventListener('DOMContentLoaded', initializeCart);
-</script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/index.js"></script>

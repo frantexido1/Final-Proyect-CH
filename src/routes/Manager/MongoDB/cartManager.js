@@ -6,18 +6,32 @@ class CartManager {
     this.cartModel = cartModel;
     this.productModel = productModel;
   }
-  async createCart() {
+
+  async getCarts() {
     try {
-      const cart = new this.cartModel([]);
-      return await cart.save();
+      const cart = await this.cartModel.find();
+      return cart;
     } catch (error) {
       console.error(error);
     }
   }
-  async addProductToCart(pid, cid) {
+
+  async createCart() {
+    try {
+      const cart = new this.cartModel();
+      await cart.save();
+      return cart;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  async addProductToCart(cid, pid) {
     try {
       const product = await this.productModel.findById(pid);
-      const cart = await this.getCartByID(cid);
+      const cart = await this.cartModel.findByIdAndUpdate(cid, {
+        $push: { product: product },
+      });
+      return cart;
     } catch (error) {
       console.error(error);
     }
@@ -28,6 +42,16 @@ class CartManager {
       return { id, cart };
     } catch (error) {
       console.error(error);
+    }
+  }
+
+  async deleteCart(id) {
+    try {
+      const cart = await this.cartModel.findById(id);
+      await this.cartModel.deleteOne(cart._id);
+      return cart;
+    } catch (error) {
+      console.log(error);
     }
   }
 }
