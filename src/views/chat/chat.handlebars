@@ -1,13 +1,74 @@
-Vista principal del chat
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
 
-<p style="border: 1px solid green" id="messagesContainer"></p>
+    .chat-container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        max-width: 400px;
+        width: 100%;
+    }
 
-<input type="text" id="messageInput">
-<input type="button" value="Enviar" id="messageButton">
+    h1 {
+        text-align: center;
+        margin-bottom: 10px;
+    }
 
+    #messagesContainer {
+        border: 1px solid #ccc;
+        padding: 10px;
+        max-height: 300px;
+        overflow-y: scroll;
+        margin-bottom: 10px;
+    }
 
-<p style="border: 1px solid red" id="notificationContainer"></p>
+    #messageInput {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+    }
+
+    #messageButton {
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+    #messageButton:hover {
+        background-color: #0056b3;
+    }
+
+    #notificationContainer {
+        text-align: center;
+        color: #d9534f;
+    }
+</style>
+
+<div class="chat-container">
+    <h1>Vista principal del chat</h1>
+    <p id="messagesContainer"></p>
+    <input type="text" id="messageInput" placeholder="Escribe un mensaje">
+    <input type="button" value="Enviar" id="messageButton">
+    <p id="notificationContainer"></p>
+</div>
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.10.3/qs.min.js"></script>
-<script src="/js/index.js"></script>
+<script src="/js/chat.js"></script>

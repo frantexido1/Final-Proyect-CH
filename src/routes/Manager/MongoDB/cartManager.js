@@ -1,5 +1,5 @@
 const cartModel = require("../Models/cartModel");
-const productModel = require("../Models/productModels");
+const productModel = require("../Models/productModel");
 
 class CartManager {
   constructor() {
