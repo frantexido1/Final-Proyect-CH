@@ -1,21 +1,12 @@
 const { Router } = require("express");
-const { io } = require("../../utils/app");
+const productsRouter = require("./productsRouter");
+const cartsRouter = require("./cartsRouter");
 const viewsRouter = new Router();
 
-viewsRouter.get("/login", (req, res) => {
-  return res.render("./chat/login");
+viewsRouter.get("/api/products/admin", (req, res) => {
+  res.render("admin");
 });
-
-viewsRouter.post("/login", async (req, res) => {
-  const username = req.body.name;
-
-  io.emit("newUser", username);
-
-  return res.redirect(`/chat?username=${username}`);
-});
-
-viewsRouter.get("/chat", (req, res) => {
-  return res.render("./chat/chat");
-});
+viewsRouter.use("/api/products/", productsRouter);
+viewsRouter.use("/api/cart/", cartsRouter);
 
 module.exports = viewsRouter;

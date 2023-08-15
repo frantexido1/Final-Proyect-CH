@@ -5,8 +5,18 @@ const products = express.Router();
 
 products.get("/", async (req, res) => {
   try {
-    const products = await productManager.getProducts();
-    return res.render("home", { products });
+    const filters = {
+      limit: req.query.limit || 10,
+      page: req.query.page || 1,
+      query: req.query.query || "{}",
+    };
+
+    if (req.query.sort) {
+      filters.sort = req.query.sort === "desc" ? { price: -1 } : { price: 1 };
+    }
+
+    const products = await productManager.getProducts(filters);
+    return res.render("productList", { products });
   } catch (error) {
     res.status(500).send("Error al obtener los productos");
   }
@@ -24,9 +34,10 @@ products.get("/:pid", async (req, res) => {
 
 products.post("/", async (req, res) => {
   try {
-    const body = req.body;
+    let body = req.body;
+    body.status = body.status === "on" ? true : false;
     productManager.addProduct(body);
-    return res.status(201).json(body);
+    return res.status(201).redirect("/");
   } catch (error) {
     res.status(500).json({ status: "Internal Server Error", error });
   }

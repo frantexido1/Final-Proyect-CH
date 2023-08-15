@@ -1,11 +1,8 @@
-const { Server } = require("socket.io");
+const { io } = require("./app");
 
-const init = (httpServer) => {
-  const io = new Server(httpServer);
-
-  return io;
-};
-
-// module.exports = io
-
-module.exports = init;
+io.on('connection', (socket) => {
+    console.log('a user connected');
+    socket.on('disconnect', () => {
+        console.log('user disconnected');
+    });
+});

@@ -4,10 +4,17 @@ class ProductManager {
   constructor() {
     this.productModel = productModel;
   }
-  async getProducts() {
+  async getProducts(filters) {
     try {
-      const products = await this.productModel.find();
-      return products.map((p) => p.toObject());
+      const products = await this.productModel.paginate(
+        JSON.parse(filters.query),
+        {
+          limit: filters.limit,
+          page: filters.page,
+          sort: filters.sort,
+        }
+      );
+      return products.docs.map((p) => p.toObject());
     } catch (error) {
       console.error("Error al obtener productos:", error);
       return [];
