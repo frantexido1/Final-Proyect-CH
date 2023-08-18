@@ -7,7 +7,7 @@ products.get("/", async (req, res) => {
   try {
     const filters = {
       limit: req.query.limit || 10,
-      page: req.query.page || 1,
+      page: parseInt(req.query.page) || 1,
       query: req.query.query || "{}",
     };
 
@@ -16,7 +16,7 @@ products.get("/", async (req, res) => {
     }
 
     const products = await productManager.getProducts(filters);
-    return res.render("productList", { products });
+    return res.render("productList", products);
   } catch (error) {
     res.status(500).send("Error al obtener los productos");
   }

@@ -7,6 +7,6 @@ viewsRouter.get("/api/products/admin", (req, res) => {
   res.render("admin");
 });
 viewsRouter.use("/api/products/", productsRouter);
-viewsRouter.use("/api/cart/", cartsRouter);
+viewsRouter.use("/api/carts/", cartsRouter);
 
 module.exports = viewsRouter;

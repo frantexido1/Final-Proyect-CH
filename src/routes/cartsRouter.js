@@ -1,5 +1,5 @@
-const Router = require("express");
-const carts = Router();
+const express = require("express");
+const carts = express.Router();
 const CartManager = require("./Manager/MongoDB/cartManager");
 const cartManager = new CartManager();
 
@@ -21,9 +21,11 @@ carts.post("/", async (req, res) => {
 
 carts.get("/:cid", async (req, res) => {
   try {
-    res.send(await cartManager.getCartByID(req.params.cid));
+    const cart = await cartManager.getCartByID(req.params.cid);
+    return res.render("cartList", cart);
   } catch (error) {
-    res.status(500).json({ error });
+    console.error(error);
+    res.status(500).send({ error });
   }
 });
 
@@ -34,6 +36,30 @@ carts.put("/:cid/:pid", async (req, res) => {
     );
   } catch (error) {
     res.status(500).json({ error });
+  }
+});
+
+carts.delete("/:cid/products/:pid", async (req, res) => {
+  try {
+    res.send(
+      await cartManager.deleteProductFromCart(req.params.cid, req.params.pid)
+    );
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ error: "Error al eliminar el producto del carrito" });
+  }
+});
+
+carts.delete("/:cid/products/", async (req, res) => {
+  try {
+    res.send(await cartManager.deleteAllProductFromCart(req.params.cid));
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ error: "Error al eliminar los producto del carrito" });
   }
 });
 

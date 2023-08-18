@@ -14,7 +14,8 @@ class ProductManager {
           sort: filters.sort,
         }
       );
-      return products.docs.map((p) => p.toObject());
+      products.docs = products.docs.map((p) => p.toObject());
+      return products;
     } catch (error) {
       console.error("Error al obtener productos:", error);
       return [];
