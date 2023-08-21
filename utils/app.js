@@ -6,6 +6,9 @@ const { Server } = require("socket.io");
 const handlebars = require("express-handlebars");
 const mongoose = require("mongoose");
 const io = new Server(server);
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -16,6 +19,8 @@ app.set("view engine", "handlebars");
 
 app.use(express.static("public"));
 
+app.use(cookieParser("secretkey"));
+
 //MongoDB
 const MONGODB_CONNECT =
   "mongodb+srv://admin:admin1234@cluster0.oizvoya.mongodb.net/?retryWrites=true&w=majority";
@@ -24,6 +29,18 @@ mongoose
   .then(() => console.log("conexion DB"))
   .catch((error) => console.log(error));
 //
+
+app.use(
+  session({
+    store: MongoStore.create({
+      mongoUrl: MONGODB_CONNECT,
+      ttl: 120,
+    }),
+    secret: "secretSession",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
 
 const PORT = 8080;
 server.listen(PORT, () =>

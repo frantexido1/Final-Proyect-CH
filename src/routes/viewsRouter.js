@@ -1,17 +1,32 @@
 const express = require("express");
 const productsRouter = require("./productsRouter");
 const cartsRouter = require("./cartsRouter");
-const loginRouter = require("./loginRouter");
+const sessionRouter = require("./sessionRouter");
 const viewsRouter = express.Router();
 
-viewsRouter.get("/api/products/admin", (req, res) => {
+const sessionMiddleware = (req, res, next) => {
+  if (!req.session.user) {
+    return res.redirect("/login");
+  }
+  return next();
+};
+
+viewsRouter.get("/api/products/admin", sessionMiddleware, (req, res) => {
   res.render("admin");
 });
 
-viewsRouter.use("/login", loginRouter);
+viewsRouter.get("/register", (req, res) => {
+  res.render("login/register");
+});
 
-viewsRouter.use("/api/products/", productsRouter);
+viewsRouter.get("/login", (req, res) => {
+  res.render("login/login");
+});
 
-viewsRouter.use("/api/carts/", cartsRouter);
+viewsRouter.use("/api/sessions", sessionRouter);
+
+viewsRouter.use("/api/products", sessionMiddleware, productsRouter);
+
+viewsRouter.use("/api/carts", sessionMiddleware, cartsRouter);
 
 module.exports = viewsRouter;

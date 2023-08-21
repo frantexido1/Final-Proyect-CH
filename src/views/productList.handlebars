@@ -19,15 +19,18 @@
   width: 80%; } .modal button { background-color: #007bff; color: #fff; border:
   none; padding: 5px 10px; cursor: pointer; transition: background-color 0.2s
   ease-in-out; margin-top: 10px; } .modal button:hover { background-color:
-  #0056b3; }
+  #0056b3; } .prev-button, .next-button { background-color: #007bff; color:
+  #fff; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;
+  font-size: 16px; margin-top: 20px; transition: background-color 0.2s
+  ease-in-out; } .prev-button:hover, .next-button:hover { background-color:
+  #0056b3; } .welcome-title { font-size: 24px; margin-bottom: 20px; text-align:
+  center; }
 </style>
-
-<title>Lista de Productos</title>
-
 <div class="container">
-  <h1>Lista de productos</h1>
+  <h1 class="welcome-title">¡Bienvenido, {{user.name}}!</h1>
+  <h2>Lista de productos</h2>
   <div class="product-list">
-    {{#each docs}}
+    {{#each products.docs}}
       <div class="product-card">
         <img src="{{this.thumbnail}}" alt="{{this.title}} Thumbnail" />
         <h2>{{this.title}}</h2>
@@ -37,19 +40,22 @@
       </div>
     {{/each}}
   </div>
-  {{#if hasPrevPage}}
-    <button><a href="/api/products?page={{prevPage}}">Página previa</a></button>
-  {{/if}}
+  {{#if products.hasPrevPage}}
 
-  {{#if hasNextPage}}
-    <button><a href="/api/products?page={{nextPage}}">Página siguiente</a></button>
+    <a href="/api/products?page={{products.prevPage}}"><button
+        class="prev-button"
+      >Pagina Previa</button></a>
+  {{/if}}
+  {{#if products.hasNextPage}}
+    <a href="/api/products?page={{products.nextPage}}"><button
+        class="prev-button"
+      >Pagina Siguiente</button></a>
   {{/if}}
 </div>
-
 <div id="descriptionModal" class="modal">
   <div class="modal-content">
     <p id="modalDescription"></p>
-
+    <button onclick="addToCart('{{this._id}}')">Agregar al carrito</button>
   </div>
 </div>
 

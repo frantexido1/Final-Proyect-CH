@@ -14,9 +14,9 @@ products.get("/", async (req, res) => {
     if (req.query.sort) {
       filters.sort = req.query.sort === "desc" ? { price: -1 } : { price: 1 };
     }
-
+    const user = req.session.user;
     const products = await productManager.getProducts(filters);
-    return res.render("productList", products);
+    return res.render("productList", { products, user });
   } catch (error) {
     res.status(500).send("Error al obtener los productos");
   }
