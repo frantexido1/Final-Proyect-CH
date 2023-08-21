@@ -22,7 +22,8 @@ carts.post("/", async (req, res) => {
 carts.get("/:cid", async (req, res) => {
   try {
     const cart = await cartManager.getCartByID(req.params.cid);
-    return res.render("cartList", cart);
+    const products = cart.products.map((p) => p.toObject());
+    return res.render("cartList", { products });
   } catch (error) {
     console.error(error);
     res.status(500).send({ error });

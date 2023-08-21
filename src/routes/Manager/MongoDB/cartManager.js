@@ -78,7 +78,7 @@ class CartManager {
   async getCartByID(id) {
     try {
       const cart = await this.cartModel.findById(id).populate("products");
-      return { cart };
+      return cart;
     } catch (error) {
       console.error(error);
     }

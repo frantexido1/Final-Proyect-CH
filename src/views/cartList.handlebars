@@ -1,11 +1,12 @@
 <div class="container">
   <h1>Productos en el Carrito</h1>
   <div class="product-list">
-    {{#each cart}}
+    {{#each products}}
       <div class="product-card">
         <img src="{{this.thumbnail}}" alt="{{this.title}} Thumbnail" />
         <h2>{{this.title}}</h2>
         <p>Precio: ${{this.price}}</p>
+        <!-- Otros detalles del producto -->
       </div>
     {{/each}}
   </div>
