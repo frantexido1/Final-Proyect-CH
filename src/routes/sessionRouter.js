@@ -6,6 +6,7 @@ sessionRouter.post("/register", async (req, res) => {
   try {
     const user = req.body;
     user.createDate = new Date();
+    user.isAdmin = user.isAdmin === "on" ? true : false;
     await userModel.create(user);
     return res.redirect("/login");
   } catch (error) {

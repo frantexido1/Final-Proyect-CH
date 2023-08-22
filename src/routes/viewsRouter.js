@@ -12,7 +12,8 @@ const sessionMiddleware = (req, res, next) => {
 };
 
 viewsRouter.get("/api/products/admin", sessionMiddleware, (req, res) => {
-  res.render("admin");
+  const user = req.session.user;
+  res.render("admin", user);
 });
 
 viewsRouter.get("/register", (req, res) => {
