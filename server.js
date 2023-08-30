@@ -12,6 +12,8 @@ const MongoStore = require("connect-mongo");
 const passport = require("passport");
 const viewsRouter = require("./src/routes/viewsRouter");
 
+const initializePassport = require("./src/config/passport.config");
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -43,7 +45,10 @@ app.use(
     saveUninitialized: true,
   })
 );
+
+initializePassport();
 app.use(passport.initialize());
+app.use(passport.session());
 
 const PORT = 8080;
 server.listen(PORT, () =>

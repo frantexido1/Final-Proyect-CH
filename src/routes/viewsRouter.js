@@ -24,6 +24,10 @@ viewsRouter.get("/login", (req, res) => {
   res.render("login/login");
 });
 
+viewsRouter.get("/recovery-password", (req, res) => {
+  res.render("login/recoveryPassword");
+});
+
 viewsRouter.use("/api/sessions", sessionRouter);
 
 viewsRouter.use("/api/products", sessionMiddleware, productsRouter);

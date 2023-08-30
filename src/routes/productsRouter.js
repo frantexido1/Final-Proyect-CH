@@ -1,5 +1,5 @@
 const express = require("express");
-const ProductManager = require("./Manager/MongoDB/productManager");
+const ProductManager = require("./Manager/productManager");
 const productManager = new ProductManager();
 const products = express.Router();
 

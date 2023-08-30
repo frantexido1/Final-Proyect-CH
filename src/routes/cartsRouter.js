@@ -1,6 +1,6 @@
 const express = require("express");
 const carts = express.Router();
-const CartManager = require("./Manager/MongoDB/cartManager");
+const CartManager = require("./Manager/cartManager");
 const cartManager = new CartManager();
 
 carts.get("/", async (req, res) => {
