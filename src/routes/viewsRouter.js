@@ -4,16 +4,8 @@ const cartsRouter = require("./cartsRouter");
 const sessionRouter = require("./sessionRouter");
 const viewsRouter = express.Router();
 
-const sessionMiddleware = (req, res, next) => {
-  if (!req.session.user) {
-    return res.redirect("/login");
-  }
-  return next();
-};
-
-viewsRouter.get("/api/products/admin", sessionMiddleware, (req, res) => {
-  const user = req.session.user;
-  res.render("admin", user);
+viewsRouter.get("/api/products/admin", (req, res) => {
+  res.render("admin");
 });
 
 viewsRouter.get("/register", (req, res) => {
@@ -30,8 +22,8 @@ viewsRouter.get("/recovery-password", (req, res) => {
 
 viewsRouter.use("/api/sessions", sessionRouter);
 
-viewsRouter.use("/api/products", sessionMiddleware, productsRouter);
+viewsRouter.use("/api/products", productsRouter);
 
-viewsRouter.use("/api/carts", sessionMiddleware, cartsRouter);
+viewsRouter.use("/api/carts", cartsRouter);
 
 module.exports = viewsRouter;

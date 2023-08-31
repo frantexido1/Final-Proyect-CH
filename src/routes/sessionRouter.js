@@ -1,12 +1,14 @@
 const express = require("express");
 const sessionRouter = express.Router();
-const userModel = require("./Manager/Models/userModel");
+const userModel = require("./Models/userModel");
 const passport = require("passport");
-const { createHash, isValidPassword } = require("../utils/passwordHash");
+const { createHash } = require("../utils/passwordHash");
 
 sessionRouter.post(
   "/register",
-  passport.authenticate("register", { failureRedirect: "/failregister" }),
+  passport.authenticate("register", {
+    failureRedirect: "/api/sessions/failregister",
+  }),
   (req, res) => {
     return res.redirect("/login");
   }
@@ -18,13 +20,9 @@ sessionRouter.get("/failregister", (req, res) => {
   });
 });
 
-sessionRouter.post(
-  "/login",
-  passport.authenticate("login", { failureRedirect: "/faillogin" }),
-  (req, res) => {
-    return res.redirect("/api/products");
-  }
-);
+sessionRouter.post("/login", passport.authenticate("login"), (req, res) => {
+  return res.redirect("/api/products");
+});
 
 sessionRouter.get("/faillogin", (req, res) => {
   return res.json({
