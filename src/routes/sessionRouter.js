@@ -16,6 +16,10 @@ sessionRouter.post("/login", passport.authenticate("login"), (req, res) => {
   return res.redirect("/api/products");
 });
 
+sessionRouter.get("/current", (req, res) => {
+  res.send(req.user);
+});
+
 sessionRouter.get(
   "/github",
   passport.authenticate("github", { scope: ["user:email"] }),

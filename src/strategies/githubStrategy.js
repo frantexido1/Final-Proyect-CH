@@ -9,10 +9,8 @@ const gitHubStrategy = new GitHubStrategy(
   },
   async (accessToken, refreshToken, profile, done) => {
     try {
-      let user = await userModel.findOne({ email: profile._json.login });
-
+      const user = await userModel.findOne({ email: profile._json.login });
       if (user) {
-        console.log("Usuario ya existe");
         return done(null, user);
       }
 

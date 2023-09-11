@@ -1,6 +1,6 @@
-const { Schema, model } = require("mongoose");
+const mongoose = require("mongoose");
 
-const userSchema = Schema({
+const userSchema = mongoose.Schema({
   name: String,
   lastname: String,
   email: {
@@ -11,6 +11,7 @@ const userSchema = Schema({
   password: String,
   createDate: Date,
   isAdmin: Boolean,
+  cartID: { type: mongoose.Schema.Types.ObjectId, ref: "carts" },
 });
 
-module.exports = model("users", userSchema);
+module.exports = mongoose.model("users", userSchema);
