@@ -1,6 +1,6 @@
-const cartModel = require("../Models/cartModel");
+const cartModel = require("./Models/cartModel");
 
-class CartManager {
+class CartStorage {
   constructor() {
     this.cartModel = cartModel;
   }
@@ -8,6 +8,15 @@ class CartManager {
   async getCarts() {
     try {
       const cart = await this.cartModel.find();
+      return cart;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async getCartByID(id) {
+    try {
+      const cart = await this.cartModel.findById(id).populate("products");
       return cart;
     } catch (error) {
       console.error(error);
@@ -23,6 +32,17 @@ class CartManager {
       console.error(error);
     }
   }
+
+  async deleteCart(id) {
+    try {
+      const cart = await this.cartModel.findById(id);
+      await this.cartModel.deleteOne(cart._id);
+      return cart;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async addProductToCart(cid, pid) {
     try {
       return await this.cartModel.findByIdAndUpdate(cid, {
@@ -74,25 +94,6 @@ class CartManager {
       throw error;
     }
   }
-
-  async getCartByID(id) {
-    try {
-      const cart = await this.cartModel.findById(id).populate("products");
-      return cart;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  async deleteCart(id) {
-    try {
-      const cart = await this.cartModel.findById(id);
-      await this.cartModel.deleteOne(cart._id);
-      return cart;
-    } catch (error) {
-      console.log(error);
-    }
-  }
 }
 
-module.exports = CartManager;
+module.exports = CartStorage;

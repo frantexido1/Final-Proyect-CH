@@ -5,7 +5,7 @@ const sessionRouter = require("./sessionRouter");
 const viewsRouter = express.Router();
 
 viewsRouter.get("/api/products/admin", (req, res) => {
-  res.render("admin");
+  res.render("admin", req.user);
 });
 
 viewsRouter.get("/register", (req, res) => {

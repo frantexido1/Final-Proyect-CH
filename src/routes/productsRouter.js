@@ -1,67 +1,26 @@
 const express = require("express");
-const ProductManager = require("./Manager/productManager");
-const productManager = new ProductManager();
 const products = express.Router();
+const ProductsController = require("../controller/productsController");
 
-products.get("/", async (req, res) => {
-  try {
-    const filters = {
-      limit: req.query.limit || 10,
-      page: parseInt(req.query.page) || 1,
-      query: req.query.query || "{}",
-    };
+const productsController = new ProductsController();
 
-    if (req.query.sort) {
-      filters.sort = req.query.sort === "desc" ? { price: -1 } : { price: 1 };
-    }
-    const user = req.session.user;
-    const products = await productManager.getProducts(filters);
-    return res.render("productList", { products, user });
-  } catch (error) {
-    res.status(500).send("Error al obtener los productos");
-  }
-});
+products.get("/", productsController.getProducts.bind(productsController));
 
-products.get("/:pid", async (req, res) => {
-  try {
-    const pid = req.params.pid;
-    const product = await productManager.getProductByID(pid);
-    return res.json(product);
-  } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
+products.get(
+  "/:pid",
+  productsController.getProductByID.bind(productsController)
+);
 
-products.post("/", async (req, res) => {
-  try {
-    let body = req.body;
-    body.status = body.status === "on" ? true : false;
-    productManager.addProduct(body);
-    return res.status(201).redirect("/");
-  } catch (error) {
-    res.status(500).json({ status: "Internal Server Error", error });
-  }
-});
+products.post("/", productsController.addProduct.bind(productsController));
 
-products.put("/:pid", async (req, res) => {
-  try {
-    const pid = req.params.pid;
-    const body = req.body;
-    const product = await productManager.updateProduct(pid, body);
+products.put(
+  "/:pid",
+  productsController.updateProduct.bind(productsController)
+);
 
-    return res.json(product);
-  } catch (error) {
-    res.status(500).json(error);
-  }
-});
-
-products.delete("/:pid", async (req, res) => {
-  try {
-    const pid = req.params.pid;
-    res.send(await productManager.deleteProduct(pid));
-  } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
+products.delete(
+  "/:pid",
+  productsController.deleteProduct.bind(productsController)
+);
 
 module.exports = products;

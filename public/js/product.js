@@ -1,5 +1,3 @@
-const socket = io();
-
 const showDescriptionModal = (description) => {
   const modal = document.getElementById("descriptionModal");
   const modalDescription = modal.querySelector("#modalDescription");

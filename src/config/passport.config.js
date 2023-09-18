@@ -1,7 +1,7 @@
 const passport = require("passport");
 const registerLocalStrategy = require("../strategies/registerLocalStrategy");
 const loginLocalStrategy = require("../strategies/loginLocalStrategy");
-const userModel = require("../routes/Models/userModel");
+const userModel = require("../storage/Models/userModel");
 const gitHubStrategy = require("../strategies/githubStrategy");
 
 const initializePassport = () => {

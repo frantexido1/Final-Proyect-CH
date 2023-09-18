@@ -1,6 +1,6 @@
-const productModel = require("../Models/productModel");
+const productModel = require("./Models/productModel");
 
-class ProductManager {
+class ProductsStorage {
   constructor() {
     this.productModel = productModel;
   }
@@ -78,4 +78,4 @@ class ProductManager {
   }
 }
 
-module.exports = ProductManager;
+module.exports = ProductsStorage;

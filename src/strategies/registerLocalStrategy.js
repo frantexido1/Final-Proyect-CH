@@ -1,6 +1,6 @@
 const passportLocal = require("passport-local");
 const LocalStrategy = passportLocal.Strategy;
-const userModel = require("../routes/Models/userModel");
+const userModel = require("../storage/Models/userModel");
 const { createHash } = require("../utils/passwordHash");
 
 const registerLocalStrategy = new LocalStrategy(

@@ -1,6 +1,6 @@
 const express = require("express");
 const sessionRouter = express.Router();
-const userModel = require("./Models/userModel");
+const userModel = require("../storage/Models/userModel");
 const passport = require("passport");
 const { createHash } = require("../utils/passwordHash");
 

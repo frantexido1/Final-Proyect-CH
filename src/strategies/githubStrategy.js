@@ -1,5 +1,5 @@
 const GitHubStrategy = require("passport-github2");
-const userModel = require("../routes/Models/userModel");
+const userModel = require("../storage/Models/userModel");
 
 const gitHubStrategy = new GitHubStrategy(
   {
