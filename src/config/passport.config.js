@@ -1,26 +1,47 @@
 const passport = require("passport");
+const passportJWT = require("passport-jwt");
 const registerLocalStrategy = require("../strategies/registerLocalStrategy");
 const loginLocalStrategy = require("../strategies/loginLocalStrategy");
 const userModel = require("../storage/Models/userModel");
-const gitHubStrategy = require("../strategies/githubStrategy");
+const JWTStrategy = passportJWT.Strategy;
+const extractJWT = passportJWT.ExtractJwt;
+
+const cookieExtractor = (req) => {
+  console.log(req.cookies);
+  return req.cookies && req.cookies.authToken;
+  // return (
+  //   req.headers &&
+  //   req.headers["authorization"] &&
+  //   req.headers["authorization"].replace("Bearer ", "")
+  // );
+};
 
 const initializePassport = () => {
+  passport.use(
+    "jwt",
+    new JWTStrategy(
+      {
+        jwtFromRequest: extractJWT.fromExtractors([cookieExtractor]),
+        secretOrKey: "jwtsecret",
+      },
+      (jwtPayload, done) => {
+        console.log({ jwtPayload });
+        done(null, jwtPayload.user);
+      }
+    )
+  );
+
   passport.use("register", registerLocalStrategy);
-  passport.use("github", gitHubStrategy);
   passport.use("login", loginLocalStrategy);
 
   passport.serializeUser((user, done) => {
-    done(null, user.email);
+    return done(null, user.email);
   });
 
   passport.deserializeUser(async (email, done) => {
-    try {
-      const user = await userModel.findOne({ email: email });
-      done(null, user);
-    } catch (error) {
-      done(error);
-    }
+    const user = await userModel.findOne({ email });
+    console.log(user);
+    return done(null, user);
   });
 };
-
 module.exports = initializePassport;

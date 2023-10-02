@@ -21,8 +21,6 @@ app.set("view engine", "handlebars");
 
 app.use(express.static("public"));
 
-app.use(cookieParser("secretkey"));
-
 //MongoDB
 const MONGODB_CONNECT =
   "mongodb+srv://admin:admin1234@cluster0.oizvoya.mongodb.net/?retryWrites=true&w=majority";
@@ -48,7 +46,7 @@ initializePassport();
 app.use(passport.initialize());
 app.use(passport.session());
 
-const PORT = 8080;
+const PORT = 8081;
 server.listen(PORT, () =>
   console.log(`Server listening at http://localhost:${PORT}`)
 );

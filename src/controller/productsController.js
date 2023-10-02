@@ -15,7 +15,7 @@ class ProductsController {
       if (req.query.sort) {
         filters.sort = req.query.sort === "desc" ? { price: -1 } : { price: 1 };
       }
-      const user = req.session.user;
+      const user = req.user;
       const products = await this.service.getProducts(filters);
       return res.render("productList", { products, user });
     } catch (error) {
