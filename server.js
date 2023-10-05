@@ -34,7 +34,6 @@ app.use(
   session({
     store: MongoStore.create({
       mongoUrl: MONGODB_CONNECT,
-      ttl: 120,
     }),
     secret: "secretSession",
     resave: true,

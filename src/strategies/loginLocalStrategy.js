@@ -5,8 +5,12 @@ const { isValidPassword } = require("../utils/passwordHash");
 const { generateToken } = require("../utils/jwt");
 
 const loginLocalStrategy = new LocalStrategy(
-  { usernameField: "email" },
-  async (email, password, done) => {
+  {
+    passReqToCallback: true,
+    usernameField: "email",
+    passwordField: "password",
+  },
+  async (req, email, password, done) => {
     try {
       let user = await userModel.findOne({ email });
 
@@ -20,6 +24,10 @@ const loginLocalStrategy = new LocalStrategy(
 
       user = user.toObject();
       delete user.password;
+
+      const token = generateToken(user);
+      console.log(token);
+      req.session.user = token;
 
       done(null, user);
     } catch (error) {

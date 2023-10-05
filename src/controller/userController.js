@@ -8,9 +8,6 @@ const loginJWTController = (req, res, next) => {
     if (!user) {
       return res.status(401).json({ message: "Credenciales incorrectas" });
     }
-
-    const token = user.access_token;
-    console.log(token);
     return res.redirect("/api/products");
   })(req, res, next);
 };
@@ -27,5 +24,23 @@ const registerJWTController = (req, res, next) => {
     return res.redirect("/login");
   })(req, res, next);
 };
+const recoveryPasswordController = async (req, res) => {
+  let user = await userModel.findOne({ email: req.body.email });
 
-module.exports = { loginJWTController, registerJWTController };
+  if (!user) {
+    return res.status(401).json({
+      error: "El usuario no existe en el sistema",
+    });
+  }
+
+  const newPassword = createHash(req.body.newPassword);
+  await userModel.updateOne({ email: user.email }, { password: newPassword });
+
+  return res.redirect("/login");
+};
+
+module.exports = {
+  loginJWTController,
+  registerJWTController,
+  recoveryPasswordController,
+};

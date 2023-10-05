@@ -6,14 +6,8 @@ const userModel = require("../storage/Models/userModel");
 const JWTStrategy = passportJWT.Strategy;
 const extractJWT = passportJWT.ExtractJwt;
 
-const cookieExtractor = (req) => {
-  console.log(req.cookies);
-  return req.cookies && req.cookies.authToken;
-  // return (
-  //   req.headers &&
-  //   req.headers["authorization"] &&
-  //   req.headers["authorization"].replace("Bearer ", "")
-  // );
+const tokenFromRequest = (req) => {
+  return req.session.user;
 };
 
 const initializePassport = () => {
@@ -21,11 +15,10 @@ const initializePassport = () => {
     "jwt",
     new JWTStrategy(
       {
-        jwtFromRequest: extractJWT.fromExtractors([cookieExtractor]),
+        jwtFromRequest: extractJWT.fromExtractors([tokenFromRequest]),
         secretOrKey: "jwtsecret",
       },
       (jwtPayload, done) => {
-        console.log({ jwtPayload });
         done(null, jwtPayload.user);
       }
     )
@@ -40,7 +33,6 @@ const initializePassport = () => {
 
   passport.deserializeUser(async (email, done) => {
     const user = await userModel.findOne({ email });
-    console.log(user);
     return done(null, user);
   });
 };
