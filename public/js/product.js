@@ -17,8 +17,9 @@ window.onclick = (event) => {
   }
 };
 
-const addToCart = (id) => {
-  return fetch(`/api/carts/64dea02757fe6c2345796a49/${id.toString()}`, {
-    method: "PUT",
-  });
+const addToCart = (userID, id) => {
+  console.log({ userID, id });
+  // return fetch(`/api/carts/${userID.toString()}/${id.toString()}`, {
+  //   method: "PUT",
+  // });
 };

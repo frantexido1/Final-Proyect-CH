@@ -15,10 +15,8 @@ class ProductsController {
       if (req.query.sort) {
         filters.sort = req.query.sort === "desc" ? { price: -1 } : { price: 1 };
       }
-      const user = req.user;
-      7;
-      console.log(user);
       const products = await this.service.getProducts(filters);
+      const user = req.user;
       return res.render("productList", { products, user });
     } catch (error) {
       res.status(500).send("[CONTROLLER]Error al obtener los productos");

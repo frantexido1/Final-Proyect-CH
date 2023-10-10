@@ -19,8 +19,10 @@ carts.delete(
 );
 
 carts.delete(
-  "/:cid/products/",
+  "/:cid/products",
   cartController.deleteAllProductFromCart.bind(cartController)
 );
+
+carts.post("/:cid/purchase", cartController.purchaseCart.bind(cartController));
 
 module.exports = carts;

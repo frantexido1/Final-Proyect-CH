@@ -47,12 +47,18 @@ class CartController {
 
   async addProductToCart(req, res) {
     try {
-      res.send(
-        await this.service.addProductToCart(req.params.cid, req.params.pid)
-      );
+      const cartId = req.params.cid;
+      const productId = req.params.pid;
+
+      await this.service.addProductToCart(cartId, productId, 1);
+
+      res.status(200).json({
+        status: "[CONTROLLER] Producto agregado al carrito",
+      });
     } catch (error) {
+      console.log(error);
       res.status(500).json({
-        status: "[CONTROLLER]Error al agregar el producto al carrito",
+        status: "[CONTROLLER] Error al agregar el producto al carrito",
       });
     }
   }
@@ -77,6 +83,36 @@ class CartController {
       res.status(500).json({
         status: "[CONTROLLER]Error al eliminar todos los producto del carrito",
       });
+    }
+  }
+
+  async purchaseCart(req, res) {
+    try {
+      const cartId = req.params.cid;
+      const cart = await this.service.getCartByID(cartId);
+
+      if (!cart) {
+        return res.status(404).json({ message: "Carrito no encontrado" });
+      }
+      for (const cartItem of cart.products) {
+        const product = cartItem._id;
+
+        if (product.stock >= cartItem.quantity) {
+          product.stock -= cartItem.quantity;
+          await product.save();
+        } else {
+          return res.status(400).json({
+            message: `No hay suficiente stock para el producto con ID ${product._id}`,
+          });
+        }
+      }
+      cart.purchased = true;
+      await cart.save();
+
+      return res.status(200).json({ message: "Compra exitosa" });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Error en el proceso de compra" });
     }
   }
 }

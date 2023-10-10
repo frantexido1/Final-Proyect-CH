@@ -1,6 +1,6 @@
 const express = require("express");
-const sessionRouter = express.Router();
 const passport = require("passport");
+const sessionRouter = express.Router();
 const {
   loginJWTController,
   registerJWTController,

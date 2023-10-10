@@ -16,7 +16,7 @@ class CartStorage {
 
   async getCartByID(id) {
     try {
-      const cart = await this.cartModel.findById(id).populate("products");
+      const cart = await this.cartModel.findById(id).populate("products._id");
       return cart;
     } catch (error) {
       console.error(error);
@@ -43,11 +43,17 @@ class CartStorage {
     }
   }
 
-  async addProductToCart(cid, pid) {
+  async addProductToCart(cid, pid, quantity) {
     try {
-      return await this.cartModel.findByIdAndUpdate(cid, {
-        $push: { products: { _id: pid } },
-      });
+      const cart = await this.cartModel.findById(cid);
+      const productCart = cart.products.find((p) => p._id.toString() === pid);
+      if (productCart) {
+        productCart.quantity += quantity;
+      } else {
+        cart.products.push({ _id: pid, quantity });
+      }
+      await cart.save();
+      return cart;
     } catch (error) {
       console.error(error);
     }

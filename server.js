@@ -4,7 +4,6 @@ const http = require("http");
 const server = http.createServer(app);
 const handlebars = require("express-handlebars");
 const mongoose = require("mongoose");
-const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const passport = require("passport");
@@ -45,7 +44,7 @@ initializePassport();
 app.use(passport.initialize());
 app.use(passport.session());
 
-const PORT = 8081;
+const PORT = 8080;
 server.listen(PORT, () =>
   console.log(`Server listening at http://localhost:${PORT}`)
 );

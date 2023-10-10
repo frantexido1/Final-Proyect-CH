@@ -20,8 +20,11 @@ class CartService {
     return await this.storage.deleteCart(id);
   }
 
-  async addProductToCart(cid, pid) {
-    return await this.storage.addProductToCart(cid, pid);
+  async addProductToCart(cid, pid, quantity) {
+    return await this.storage.addProductToCart(cid, pid, quantity);
+  }
+  async getProductCart(cartId, productId) {
+    return await this.storage.getProductCart(cartId, productId);
   }
 
   async deleteProductFromCart(cartId, productId) {

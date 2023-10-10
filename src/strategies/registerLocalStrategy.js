@@ -2,6 +2,8 @@ const passportLocal = require("passport-local");
 const LocalStrategy = passportLocal.Strategy;
 const userModel = require("../storage/Models/userModel");
 const { createHash } = require("../utils/passwordHash");
+const CartService = require("../service/cartService");
+const cartService = new CartService();
 
 const registerLocalStrategy = new LocalStrategy(
   { passReqToCallback: true, usernameField: "email" },
@@ -16,10 +18,10 @@ const registerLocalStrategy = new LocalStrategy(
 
       user.createDate = new Date();
 
-      user.isAdmin = user.isAdmin === "on" ? true : false;
-
       user.password = createHash(user.password);
-
+      user.role = "admin";
+      const cart = await cartService.createCart();
+      user.cartID = cart._id;
       await userModel.create(user);
 
       return done(null, user);

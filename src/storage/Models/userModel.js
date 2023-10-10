@@ -10,7 +10,7 @@ const userSchema = mongoose.Schema({
   age: Number,
   password: String,
   createDate: Date,
-  isAdmin: Boolean,
+  role: String,
   cartID: { type: mongoose.Schema.Types.ObjectId, ref: "carts" },
 });
 
