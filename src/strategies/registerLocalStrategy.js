@@ -3,6 +3,8 @@ const LocalStrategy = passportLocal.Strategy;
 const userModel = require("../storage/Models/userModel");
 const { createHash } = require("../utils/passwordHash");
 const CartService = require("../service/cartService");
+const CustomError = require("../service/errors/customError");
+const EErrors = require("../service/errors/enums");
 const cartService = new CartService();
 
 const registerLocalStrategy = new LocalStrategy(
@@ -26,7 +28,14 @@ const registerLocalStrategy = new LocalStrategy(
 
       return done(null, user);
     } catch (error) {
-      return done(error);
+      return done(
+        CustomError.createError({
+          name: "Register Error",
+          cause: error,
+          message: "Error al registrar el usuario",
+          code: EErrors.USER_REGISTER_ERROR,
+        })
+      );
     }
   }
 );

@@ -1,24 +1,24 @@
 const express = require("express");
+const compression = require("express-compression");
 const app = express();
-const http = require("http");
-const server = http.createServer(app);
 const handlebars = require("express-handlebars");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const passport = require("passport");
 const viewsRouter = require("./src/routes/viewsRouter");
-
+const errorMiddleware = require("./src/middlewares/errors/index");
 const initializePassport = require("./src/config/passport.config");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(errorMiddleware);
 app.engine("handlebars", handlebars.engine());
 app.set("views", "./src/views");
 app.set("view engine", "handlebars");
 
 app.use(express.static("public"));
+app.use(compression());
 
 //MongoDB
 const MONGODB_CONNECT =
@@ -45,7 +45,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 const PORT = 8080;
-server.listen(PORT, () =>
+app.listen(PORT, () =>
   console.log(`Server listening at http://localhost:${PORT}`)
 );
 

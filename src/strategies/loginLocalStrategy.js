@@ -3,6 +3,7 @@ const LocalStrategy = passportLocal.Strategy;
 const userModel = require("../storage/Models/userModel");
 const { isValidPassword } = require("../utils/passwordHash");
 const { generateToken } = require("../utils/jwt");
+const CustomError = require("../service/errors/customError");
 
 const loginLocalStrategy = new LocalStrategy(
   {
@@ -30,7 +31,14 @@ const loginLocalStrategy = new LocalStrategy(
 
       done(null, user);
     } catch (error) {
-      return done(error);
+      return done(
+        CustomError({
+          name: "Login Error",
+          cause: error,
+          message: "Error al iniciar sesión",
+          code: EErrors.USER_LOGIN_ERROR,
+        })
+      );
     }
   }
 );
