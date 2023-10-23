@@ -9,6 +9,7 @@ const passport = require("passport");
 const viewsRouter = require("./src/routes/viewsRouter");
 const errorMiddleware = require("./src/middlewares/errors/index");
 const initializePassport = require("./src/config/passport.config");
+const addLogger = require("./src/utils/logger");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -43,6 +44,8 @@ app.use(
 initializePassport();
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(addLogger);
 
 const PORT = 8080;
 app.listen(PORT, () =>
