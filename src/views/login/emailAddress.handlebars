@@ -13,19 +13,14 @@
 
 <div class="container">
   <h2>Recuperar Contraseña</h2>
-  <form action="/api/sessions/recovery-password" method="POST">
+  <form action="/api/sessions/email-address" method="POST">
     <input
       type="email"
       name="email"
       placeholder="Correo Electrónico"
       required
     />
-    <input
-      type="password"
-      name="newPassword"
-      placeholder="Nueva Contraseña"
-      required
-    />
-    <button type="submit">Cambiar Contraseña</button>
+
+    <button type="submit">Enviar Email</button>
   </form>
 </div>

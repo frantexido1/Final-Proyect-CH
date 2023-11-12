@@ -23,4 +23,8 @@ products.delete(
   productsController.deleteProduct.bind(productsController)
 );
 
+products.get("/controller/admin", (req, res) => {
+  res.render("admin", req.user);
+});
+
 module.exports = products;

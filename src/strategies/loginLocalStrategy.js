@@ -26,7 +26,7 @@ const loginLocalStrategy = new LocalStrategy(
       user = user.toObject();
       delete user.password;
 
-      const token = generateToken(user);
+      const token = generateToken(user, "24h");
       req.session.user = token;
 
       done(null, user);

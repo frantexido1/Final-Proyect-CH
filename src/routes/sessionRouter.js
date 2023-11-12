@@ -1,24 +1,23 @@
 const express = require("express");
-const passport = require("passport");
 const sessionRouter = express.Router();
-const {
-  loginJWTController,
-  registerJWTController,
-  recoveryPasswordController,
-} = require("../controller/userController");
+const AuthController = require("../controller/userController");
+const authController = new AuthController();
 
-sessionRouter.post("/register", registerJWTController);
+sessionRouter.post("/login", authController.loginJWT.bind(authController));
 
-sessionRouter.post("/login", loginJWTController);
-
-sessionRouter.get(
-  "/current",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    return res.send(req.user);
-  }
+sessionRouter.post(
+  "/register",
+  authController.registerJWT.bind(authController)
 );
 
-sessionRouter.post("/recovery-password", recoveryPasswordController);
+sessionRouter.post(
+  "/email-address",
+  authController.emailAddress.bind(authController)
+);
+
+sessionRouter.post(
+  "/recovery-password/:token",
+  authController.recoveryPassword.bind(authController)
+);
 
 module.exports = sessionRouter;

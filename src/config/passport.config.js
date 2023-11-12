@@ -19,7 +19,7 @@ const initializePassport = () => {
         secretOrKey: "jwtsecret",
       },
       (jwtPayload, done) => {
-        done(null, jwtPayload.user);
+        done(null, jwtPayload);
       }
     )
   );
