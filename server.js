@@ -19,7 +19,7 @@ const connection =
   "mongodb+srv://admin:admin1234@cluster0.oizvoya.mongodb.net/?retryWrites=true&w=majority";
 
 app.use(
-  "/apidocs/",
+  "/apidocs",
   swaggerUiExpress.serve,
   swaggerUiExpress.setup(swaggerJSDoc(swaggerOptions))
 );

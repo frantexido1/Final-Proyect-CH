@@ -1,5 +1,5 @@
 const swaggerOptions = {
-  swaggerDefinition: {
+  definition: {
     openapi: "3.0.0",
     info: {
       title: "APICoder",
@@ -7,7 +7,11 @@ const swaggerOptions = {
       description: "API",
     },
   },
-  apis: ["./docs/*.yaml"],
+  apis: [
+    "./src/docs/users/users.yaml",
+    "./src/docs/products/products.yaml",
+    "./src/docs/cart/cart.yaml",
+  ],
 };
 
 module.exports = swaggerOptions;

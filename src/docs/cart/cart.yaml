@@ -1,0 +1,126 @@
+paths:
+  /api/carts:
+    get:
+      summary: Obtener lista de carritos
+      description: Endpoint para obtener una lista de carritos.
+      responses:
+        "200":
+          description: Éxito. Devuelve la lista de carritos.
+
+    post:
+      summary: Crear un carrito
+      description: Endpoint para crear un nuevo carrito.
+      responses:
+        "200":
+          description: Éxito. Devuelve el carrito creado.
+        "500":
+          description: Error al crear el carrito.
+
+  /api/carts/{cid}:
+    get:
+      summary: Obtener un carrito por ID
+      description: Endpoint para obtener un carrito por su ID.
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Éxito. Devuelve el carrito solicitado.
+        "500":
+          description: Error al obtener el carrito.
+
+    delete:
+      summary: Eliminar un carrito
+      description: Endpoint para eliminar un carrito por su ID.
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Éxito. Devuelve el resultado de la eliminación.
+        "500":
+          description: Error al eliminar el carrito.
+
+  /api/carts/{cid}/{pid}:
+    put:
+      summary: Agregar producto al carrito
+      description: Endpoint para agregar un producto a un carrito.
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Éxito. Devuelve el resultado de agregar el producto al carrito.
+        "500":
+          description: Error al agregar el producto al carrito.
+
+  /api/carts/{cid}/products/{pid}:
+    delete:
+      summary: Eliminar producto del carrito
+      description: Endpoint para eliminar un producto de un carrito.
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Éxito. Devuelve el resultado de eliminar el producto del carrito.
+        "500":
+          description: Error al eliminar el producto del carrito.
+
+  /api/carts/{cid}/products:
+    delete:
+      summary: Eliminar todos los productos del carrito
+      description: Endpoint para eliminar todos los productos de un carrito.
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Éxito. Devuelve el resultado de eliminar todos los productos del carrito.
+        "500":
+          description: Error al eliminar todos los productos del carrito.
+
+  /api/carts/{cid}/purchase:
+    post:
+      summary: Realizar compra del carrito
+      description: Endpoint para realizar la compra de un carrito.
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Éxito. Devuelve el resultado de la compra del carrito.
+        "404":
+          description: Carrito no encontrado.
+        "400":
+          description: No hay suficiente stock para algunos productos en el carrito.
+        "500":
+          description: Error en el proceso de compra.

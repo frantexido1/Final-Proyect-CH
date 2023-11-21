@@ -21,7 +21,7 @@ const registerLocalStrategy = new LocalStrategy(
       user.createDate = new Date();
 
       user.password = createHash(user.password);
-      user.role = "admin";
+      user.role = "user";
       const cart = await cartService.createCart();
       user.cartID = cart._id;
       await userModel.create(user);

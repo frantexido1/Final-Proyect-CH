@@ -1,0 +1,71 @@
+paths:
+  /api/products:
+    get:
+      summary: Obtener lista de productos
+      description: Endpoint para obtener una lista de productos.
+      responses:
+        "200":
+          description: Éxito. Devuelve la lista de productos.
+
+  /api/products/{pid}:
+    get:
+      summary: Obtener un producto por ID
+      description: Endpoint para obtener un producto por su ID.
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Éxito. Devuelve el producto solicitado.
+        "500":
+          description: Error al obtener el producto.
+
+    put:
+      summary: Actualizar un producto
+      description: Endpoint para actualizar un producto por su ID.
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductUpdateRequest"
+      responses:
+        "200":
+          description: Éxito. Devuelve el producto actualizado.
+        "500":
+          description: Error al actualizar el producto.
+
+    delete:
+      summary: Eliminar un producto
+      description: Endpoint para eliminar un producto por su ID.
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Éxito. Devuelve el resultado de la eliminación.
+        "500":
+          description: Error al eliminar el producto.
+
+components:
+  schemas:
+    ProductUpdateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        price:
+          type: number
+        status:
+          type: boolean
