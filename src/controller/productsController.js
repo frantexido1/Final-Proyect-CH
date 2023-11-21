@@ -35,10 +35,18 @@ class ProductsController {
   }
   async addProduct(req, res) {
     try {
-      let body = req.body;
-      body.status = body.status === "on" ? true : false;
-      await this.service.addProduct(body);
-      return res.status(201).redirect(`/api/products`);
+      const userRole = req.user.role;
+      if (userRole === "admin") {
+        let body = req.body;
+        body.status = body.status === "on" ? true : false;
+        body.owner = req.user._id;
+        await this.service.addProduct(body);
+        return res.status(201).redirect(`/api/products`);
+      } else {
+        return res
+          .status(403)
+          .json({ message: "No tienes permiso para agregar productos" });
+      }
     } catch (error) {
       res.status(500).json({
         status: "[CONTROLLER]No se pudo agregar el producto correctamente",

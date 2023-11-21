@@ -1,4 +1,4 @@
-const cartModel = require("./Models/cartModel");
+const cartModel = require("../models/cartModel");
 
 class CartStorage {
   constructor() {

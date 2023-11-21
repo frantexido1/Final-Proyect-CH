@@ -1,6 +1,5 @@
 const express = require("express");
 const compression = require("express-compression");
-const app = express();
 const handlebars = require("express-handlebars");
 const mongoose = require("mongoose");
 const session = require("express-session");
@@ -10,7 +9,20 @@ const viewsRouter = require("./src/routes/viewsRouter");
 const errorMiddleware = require("./src/middlewares/errors/index");
 const initializePassport = require("./src/config/passport.config");
 const addLogger = require("./src/utils/logger");
+const swaggerJSDoc = require("swagger-jsdoc");
+const swaggerOptions = require("./src/utils/swagger");
+const swaggerUiExpress = require("swagger-ui-express");
 
+const app = express();
+const PORT = 8080;
+const connection =
+  "mongodb+srv://admin:admin1234@cluster0.oizvoya.mongodb.net/?retryWrites=true&w=majority";
+
+app.use(
+  "/apidocs/",
+  swaggerUiExpress.serve,
+  swaggerUiExpress.setup(swaggerJSDoc(swaggerOptions))
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(errorMiddleware);
@@ -21,23 +33,20 @@ app.set("view engine", "handlebars");
 app.use(express.static("public"));
 app.use(compression());
 
-//MongoDB
-const MONGODB_CONNECT =
-  "mongodb+srv://admin:admin1234@cluster0.oizvoya.mongodb.net/?retryWrites=true&w=majority";
 mongoose
-  .connect(MONGODB_CONNECT)
+  .connect(connection)
   .then(() => console.log("conexion DB"))
   .catch((error) => console.log(error));
-//
 
 app.use(
   session({
     store: MongoStore.create({
-      mongoUrl: MONGODB_CONNECT,
+      mongoUrl: connection,
     }),
     secret: "secretSession",
-    resave: true,
-    saveUninitialized: true,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 60000 },
   })
 );
 
@@ -47,11 +56,6 @@ app.use(passport.session());
 
 app.use(addLogger);
 
-const PORT = 8080;
-app.listen(PORT, () =>
-  console.log(`Server listening at http://localhost:${PORT}`)
-);
-
 app.get("/", (req, res) => {
   return res.json({
     status: "running",
@@ -60,3 +64,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/", viewsRouter);
+
+app.listen(PORT, () =>
+  console.log(`Server listening at http://localhost:${PORT}`)
+);

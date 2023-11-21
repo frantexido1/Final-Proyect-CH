@@ -1,6 +1,6 @@
 const passportLocal = require("passport-local");
 const LocalStrategy = passportLocal.Strategy;
-const userModel = require("../storage/Models/userModel");
+const userModel = require("../models/userModel");
 const { isValidPassword } = require("../utils/passwordHash");
 const { generateToken } = require("../utils/jwt");
 const CustomError = require("../service/errors/customError");

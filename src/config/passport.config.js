@@ -2,7 +2,7 @@ const passport = require("passport");
 const passportJWT = require("passport-jwt");
 const registerLocalStrategy = require("../strategies/registerLocalStrategy");
 const loginLocalStrategy = require("../strategies/loginLocalStrategy");
-const userModel = require("../storage/Models/userModel");
+const userModel = require("../models/userModel");
 const JWTStrategy = passportJWT.Strategy;
 const extractJWT = passportJWT.ExtractJwt;
 

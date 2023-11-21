@@ -1,6 +1,6 @@
 const passport = require("passport");
 const nodemailer = require("nodemailer");
-const userModel = require("../storage/Models/userModel");
+const userModel = require("../models/userModel");
 const { generateToken, verifyToken } = require("../utils/jwt");
 const { createHash } = require("../utils/passwordHash");
 

@@ -36,17 +36,15 @@
         <h2>{{this.title}}</h2>
         <p>Precio: ${{this.price}}</p>
         <button onclick="showDescriptionModal('{{this.description}}')">Ver más</button>
-        <button
-          onclick="addToCart(this.getAttribute('data-cart-id'), '{{this._id}}')"
-          data-cart-id="{{user.cartID}}"
-        >Agregar al carrito</button>
+        <button onclick="addToCart('{{user._id}}' , '{{this._id}}')">Agregar al
+          carrito</button>
 
       </div>
       <div id="descriptionModal" class="modal">
         <div class="modal-content">
           <p id="modalDescription"></p>
-          <button onclick="addToCart('{{user.cartID}}','{{this._id}}')">Agregar
-            al carrito</button>
+          <button onclick="addToCart('{{user._id}}','{{this._id}}')">Agregar al
+            carrito</button>
         </div>
       </div>
     {{/each}}
