@@ -71,7 +71,16 @@ class ProductsController {
   async deleteProduct(req, res) {
     try {
       const pid = req.params.pid;
-      res.send(await this.service.deleteProduct(pid));
+      const product = await this.service.getProductByID(pid);
+      if (
+        (req.user.role === "premium" && req.user._id === product.owner) ||
+        req.user.role === "admin"
+      ) {
+        return res.send(await this.service.deleteProduct(pid));
+      }
+      return res
+        .status(403)
+        .send("No tienes permiso para eliminar este producto");
     } catch (error) {
       res.status(500).json({
         status: "[CONTROLLER]No se pudo eliminar el producto correctamente",

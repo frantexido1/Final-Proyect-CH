@@ -1,6 +1,6 @@
 const express = require("express");
 const sessionRouter = express.Router();
-const AuthController = require("../controller/userController");
+const AuthController = require("../controller/sessionController");
 const authController = new AuthController();
 
 sessionRouter.post("/login", authController.loginJWT.bind(authController));

@@ -12,6 +12,8 @@ const userSchema = mongoose.Schema({
   createDate: Date,
   role: String,
   cartID: { type: mongoose.Schema.Types.ObjectId, ref: "carts" },
+  last_connection: Date,
+  documents: [{ name: String, reference: String }],
 });
 
 module.exports = mongoose.model("users", userSchema);

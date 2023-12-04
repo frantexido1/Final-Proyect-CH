@@ -1,9 +1,10 @@
 const express = require("express");
+const viewsRouter = express.Router();
+const passport = require("passport");
 const productsRouter = require("./productsRouter");
 const cartsRouter = require("./cartsRouter");
 const sessionRouter = require("./sessionRouter");
-const viewsRouter = express.Router();
-const passport = require("passport");
+const usersRouter = require("./usersRouter");
 
 viewsRouter.use(
   "/api/products",
@@ -26,5 +27,7 @@ viewsRouter.get("/email-address", (req, res) => {
 });
 
 viewsRouter.use("/api/sessions", sessionRouter);
+
+viewsRouter.use("/api/users", usersRouter);
 
 module.exports = viewsRouter;
