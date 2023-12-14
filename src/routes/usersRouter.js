@@ -6,7 +6,7 @@ const usersController = new UsersController();
 
 usersRouter.get("/", usersController.getUsers.bind(usersController));
 
-usersRouter.get("/:param", usersController.getUser.bind(usersController));
+usersRouter.get("/:value", usersController.getUser.bind(usersController));
 
 usersRouter.put("/:uid", usersController.updateUser.bind(usersController));
 
@@ -18,5 +18,10 @@ usersRouter.put(
 );
 
 usersRouter.post("/:uid/documents", upload.array("files"));
+
+usersRouter.delete(
+  "/deleteInactiveUsers",
+  usersController.deleteInactiveUsers.bind(usersController)
+);
 
 module.exports = usersRouter;

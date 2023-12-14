@@ -18,8 +18,8 @@ class UsersController {
   }
   async getUser(req, res) {
     try {
-      const param = req.params.param;
-      const result = await this.userService.getUser(param);
+      const { value } = req.params;
+      const result = await this.userService.getUser(value);
       return res.status(200).json(result);
     } catch (error) {
       console.error("Error al obtener el usuario:", error);
@@ -43,19 +43,6 @@ class UsersController {
       });
     }
   }
-  async deleteUser(req, res) {
-    try {
-      const id = req.params.id;
-      const result = await this.userService.deleteUser(id);
-      return res.status(200).json(result);
-    } catch (error) {
-      console.error("Error al eliminar el usuario:", error);
-      res.status(500).json({
-        status: "[CONTROLLER]No se pudo eliminar el usuario correctamente",
-        error,
-      });
-    }
-  }
   async roleUser(req, res) {
     try {
       const uid = req.params.uid;
@@ -72,6 +59,32 @@ class UsersController {
       console.error("Error al actualizar el rol:", error);
       res.status(500).json({
         status: "[CONTROLLER]No se pudo modificar el rol correctamente",
+        error,
+      });
+    }
+  }
+  async deleteUser(req, res) {
+    try {
+      const id = req.params.id;
+      const result = await this.userService.deleteUser(id);
+      return res.status(200).json(result);
+    } catch (error) {
+      console.error("Error al eliminar el usuario:", error);
+      res.status(500).json({
+        status: "[CONTROLLER]No se pudo eliminar el usuario correctamente",
+        error,
+      });
+    }
+  }
+  async deleteInactiveUsers(req, res) {
+    try {
+      const result = await this.userService.deleteInactiveUsers();
+      return res.status(200).json(result);
+    } catch (error) {
+      console.error("Error al eliminar los usuarios inactivos:", error);
+      res.status(500).json({
+        status:
+          "[CONTROLLER]No se pudo eliminar los usuarios inactivos correctamente",
         error,
       });
     }

@@ -1,22 +1,15 @@
 const passport = require("passport");
-const nodemailer = require("nodemailer");
+const emailSender = require("../utils/emailSender");
 const userModel = require("../models/userModel");
 const { generateToken, verifyToken } = require("../utils/jwt");
 const { createHash } = require("../utils/passwordHash");
 
 class AuthController {
   constructor() {
-    this.transport = nodemailer.createTransport({
-      service: "gmail",
-      port: 587,
-      auth: {
-        user: "fran.texido@gmail.com",
-        pass: "bnpj nctf dwgk nfyh",
-      },
-    });
+    this.emailSender = emailSender;
   }
 
-  loginJWT(req, res, next) {
+  async loginJWT(req, res, next) {
     passport.authenticate("login", (err, user) => {
       if (err) {
         return res.status(500).json({ message: "Error de autenticación" });
@@ -28,7 +21,21 @@ class AuthController {
     })(req, res, next);
   }
 
-  registerJWT(req, res, next) {
+  async logout(req, res) {
+    try {
+      if (req.session) {
+        req.session.destroy((err) => {
+          if (err) {
+            console.error(err);
+          } else {
+            res.redirect("/");
+          }
+        });
+      }
+    } catch (error) {}
+  }
+
+  async registerJWT(req, res, next) {
     passport.authenticate("register", { session: false }, (err, user) => {
       if (err) {
         return res.status(500).json({ message: "Error al Crear el usuario" });
@@ -52,8 +59,7 @@ class AuthController {
       }
       const token = generateToken({ email: req.body.email }, "1h");
 
-      await this.transport.sendMail({
-        from: "fran.texido@gmail.com",
+      await this.emailSender.sendMail({
         to: user.email,
         subject: "Recuperación de contraseña",
         html: `<p>http://localhost:8080/api/sessions/recovery-password/${token}</p>`,

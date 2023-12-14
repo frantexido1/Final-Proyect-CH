@@ -26,6 +26,12 @@ viewsRouter.get("/email-address", (req, res) => {
   res.render("login/emailAddress");
 });
 
+viewsRouter.use(
+  "/current",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => res.json(req.user)
+);
+
 viewsRouter.use("/api/sessions", sessionRouter);
 
 viewsRouter.use("/api/users", usersRouter);

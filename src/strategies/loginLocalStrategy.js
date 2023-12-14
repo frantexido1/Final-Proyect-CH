@@ -22,7 +22,8 @@ const loginLocalStrategy = new LocalStrategy(
       if (!isValidPassword(password, user.password)) {
         return done(null, false, { message: "Contraseña incorrecta" });
       }
-
+      user.last_connection = new Date();
+      await user.save();
       user = user.toObject();
       delete user.password;
 

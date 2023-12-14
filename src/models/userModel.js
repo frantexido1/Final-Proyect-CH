@@ -11,8 +11,8 @@ const userSchema = mongoose.Schema({
   password: String,
   createDate: Date,
   role: String,
-  cartID: { type: mongoose.Schema.Types.ObjectId, ref: "carts" },
   last_connection: Date,
+  cartID: { type: mongoose.Schema.Types.ObjectId, ref: "carts" },
   documents: [{ name: String, reference: String }],
 });
 

@@ -7,8 +7,8 @@ class UsersService {
   async getUsers() {
     return this.storage.getUsers();
   }
-  async getUser(param) {
-    return this.storage.getUser(param);
+  async getUser(value) {
+    return this.storage.getUser(value);
   }
   async createUser(user) {
     return this.storage.addUser(user);
@@ -18,6 +18,9 @@ class UsersService {
   }
   async deleteUser(id) {
     return this.storage.deleteUser(id);
+  }
+  async deleteInactiveUsers() {
+    return this.storage.deleteInactiveUsers();
   }
 }
 module.exports = UsersService;

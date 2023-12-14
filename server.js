@@ -46,7 +46,7 @@ app.use(
     secret: "secretSession",
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 60000 },
+    ttl: 60 * 60 * 24, // 24hrs
   })
 );
 
