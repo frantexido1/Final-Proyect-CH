@@ -1,0 +1,126 @@
+openapi: 3.0.0
+info:
+  title: API de Sesiones
+  version: 1.0.0
+paths:
+  /sessions/login:
+    post:
+      summary: Iniciar sesión con JWT
+      operationId: loginJWT
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginInput"
+      responses:
+        "302":
+          description: Redirigido a la lista de productos en caso de éxito
+        "401":
+          description: Credenciales incorrectas
+        "500":
+          description: Error de autenticación
+
+  /sessions/logout:
+    get:
+      summary: Cerrar sesión
+      operationId: logout
+      responses:
+        "302":
+          description: Redirigido a la página principal después de cerrar sesión
+
+  /sessions/register:
+    post:
+      summary: Registrar usuario con JWT
+      operationId: registerJWT
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterInput"
+      responses:
+        "302":
+          description: Redirigido a la página de inicio de sesión en caso de éxito
+        "401":
+          description: El usuario ya existe
+        "500":
+          description: Error al crear el usuario
+
+  /sessions/email-address:
+    post:
+      summary: Enviar correo de recuperación de contraseña
+      operationId: emailAddress
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmailInput"
+      responses:
+        "302":
+          description: Redirigido a la página de inicio de sesión en caso de éxito
+        "401":
+          description: El usuario no existe en el sistema
+        "500":
+          description: Error al enviar el correo de recuperación
+
+  /sessions/recovery-password/{token}:
+    post:
+      summary: Cambiar contraseña después de recuperación
+      operationId: recoveryPassword
+      parameters:
+        - in: path
+          name: token
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RecoveryPasswordInput"
+      responses:
+        "200":
+          description: Contraseña cambiada con éxito
+        "401":
+          description: Token inválido o expirado
+        "500":
+          description: Error al cambiar la contraseña
+
+components:
+  schemas:
+    LoginInput:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+      required:
+        - username
+        - password
+
+    RegisterInput:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+      required:
+        - username
+        - password
+
+    EmailInput:
+      type: object
+      properties:
+        email:
+          type: string
+      required:
+        - email
+
+    RecoveryPasswordInput:
+      type: object
+      properties:
+        password:
+          type: string
+      required:
+        - password

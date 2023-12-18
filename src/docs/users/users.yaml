@@ -1,62 +1,37 @@
+openapi: 3.0.0
+info:
+  title: API de Usuarios
+  version: 1.0.0
 paths:
-  /api/sessions/login:
-    post:
-      summary: Iniciar sesión
-      description: Iniciar sesión y obtener un token JWT.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/LoginRequest"
+  /users:
+    get:
+      summary: Obtener todos los usuarios
+      operationId: getUsers
       responses:
         "200":
-          description: Éxito. Devuelve un token JWT.
-        "401":
-          description: Credenciales incorrectas.
-        "500":
-          description: Error de autenticación.
+          description: Lista de usuarios
 
-  /api/sessions/register:
-    post:
-      summary: Registrarse
-      description: Registrar un nuevo usuario y obtener un token JWT.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/RegisterRequest"
-      responses:
-        "200":
-          description: Éxito. Devuelve un token JWT.
-        "401":
-          description: El usuario ya existe.
-        "500":
-          description: Error al crear el usuario.
-
-  /api/sessions/email-address:
-    post:
-      summary: Enviar dirección de correo electrónico
-      description: Enviar un correo electrónico de recuperación de contraseña.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/EmailAddressRequest"
-      responses:
-        "200":
-          description: Correo electrónico enviado con éxito.
-        "401":
-          description: El usuario no existe en el sistema.
-        "500":
-          description: Error al enviar el correo electrónico.
-
-  /api/sessions/recovery-password/{token}:
-    post:
-      summary: Restablecer contraseña
-      description: Restablecer la contraseña después de verificar el token.
+  /users/{value}:
+    get:
+      summary: Obtener un usuario por valor
+      operationId: getUser
       parameters:
         - in: path
-          name: token
+          name: value
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Detalles del usuario
+
+  /users/{uid}:
+    put:
+      summary: Modificar un usuario por ID
+      operationId: updateUser
+      parameters:
+        - in: path
+          name: uid
           required: true
           schema:
             type: string
@@ -64,45 +39,91 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/RecoveryPasswordRequest"
+              $ref: "#/components/schemas/UserInput"
       responses:
         "200":
-          description: Contraseña restablecida con éxito.
-        "401":
-          description: Token inválido o expirado.
-        "500":
-          description: Error al restablecer la contraseña.
+          description: Usuario modificado exitosamente
+
+    delete:
+      summary: Eliminar un usuario por ID
+      operationId: deleteUser
+      parameters:
+        - in: path
+          name: uid
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Usuario eliminado exitosamente
+
+  /users/premium/{uid}:
+    put:
+      summary: Actualizar el rol de un usuario a premium
+      operationId: roleUser
+      parameters:
+        - in: path
+          name: uid
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Rol de usuario actualizado a premium
+
+  /users/{uid}/documents:
+    post:
+      summary: Subir documentos para un usuario
+      operationId: uploadDocuments
+      parameters:
+        - in: path
+          name: uid
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+      responses:
+        "200":
+          description: Documentos subidos exitosamente
+
+  /users/deleteInactiveUsers:
+    delete:
+      summary: Eliminar usuarios inactivos
+      operationId: deleteInactiveUsers
+      responses:
+        "200":
+          description: Usuarios inactivos eliminados exitosamente
+
+  /users/controller/admin:
+    get:
+      summary: Vista de administrador para gestionar usuarios
+      operationId: adminUsers
+      responses:
+        "200":
+          description: Vista de administrador para gestionar usuarios
 
 components:
   schemas:
-    LoginRequest:
+    UserInput:
       type: object
       properties:
+        name:
+          type: string
         email:
           type: string
-        password:
+        role:
           type: string
       required:
+        - name
         - email
-        - password
-
-    RegisterRequest:
-      type: object
-      properties: // Propiedades necesarias para el registro (email, password, etc.)
-      required: // Lista de propiedades requeridas para el registro
-
-    EmailAddressRequest:
-      type: object
-      properties:
-        email:
-          type: string
-      required:
-        - email
-
-    RecoveryPasswordRequest:
-      type: object
-      properties:
-        password:
-          type: string
-      required:
-        - password
+        - role

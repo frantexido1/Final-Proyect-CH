@@ -1,25 +1,27 @@
+openapi: 3.0.0
+info:
+  title: API de Carritos de Compras
+  version: 1.0.0
 paths:
-  /api/carts:
+  /carts:
     get:
-      summary: Obtener lista de carritos
-      description: Endpoint para obtener una lista de carritos.
+      summary: Obtener todos los carritos de compras
+      operationId: getCarts
       responses:
         "200":
-          description: Éxito. Devuelve la lista de carritos.
+          description: Lista de carritos de compras
 
     post:
-      summary: Crear un carrito
-      description: Endpoint para crear un nuevo carrito.
+      summary: Crear un nuevo carrito de compras
+      operationId: createCart
       responses:
         "200":
-          description: Éxito. Devuelve el carrito creado.
-        "500":
-          description: Error al crear el carrito.
+          description: Carrito de compras creado exitosamente
 
-  /api/carts/{cid}:
+  /carts/{cid}:
     get:
-      summary: Obtener un carrito por ID
-      description: Endpoint para obtener un carrito por su ID.
+      summary: Obtener un carrito de compras por ID
+      operationId: getCartByID
       parameters:
         - in: path
           name: cid
@@ -28,13 +30,11 @@ paths:
             type: string
       responses:
         "200":
-          description: Éxito. Devuelve el carrito solicitado.
-        "500":
-          description: Error al obtener el carrito.
+          description: Detalles del carrito de compras
 
     delete:
-      summary: Eliminar un carrito
-      description: Endpoint para eliminar un carrito por su ID.
+      summary: Eliminar un carrito de compras por ID
+      operationId: deleteCart
       parameters:
         - in: path
           name: cid
@@ -43,14 +43,12 @@ paths:
             type: string
       responses:
         "200":
-          description: Éxito. Devuelve el resultado de la eliminación.
-        "500":
-          description: Error al eliminar el carrito.
+          description: Carrito de compras eliminado exitosamente
 
-  /api/carts/{cid}/{pid}:
+  /carts/{cid}/{pid}:
     put:
-      summary: Agregar producto al carrito
-      description: Endpoint para agregar un producto a un carrito.
+      summary: Agregar un producto al carrito de compras
+      operationId: addProductToCart
       parameters:
         - in: path
           name: cid
@@ -64,14 +62,12 @@ paths:
             type: string
       responses:
         "200":
-          description: Éxito. Devuelve el resultado de agregar el producto al carrito.
-        "500":
-          description: Error al agregar el producto al carrito.
+          description: Producto agregado al carrito
 
-  /api/carts/{cid}/products/{pid}:
+  /carts/{cid}/products/{pid}:
     delete:
-      summary: Eliminar producto del carrito
-      description: Endpoint para eliminar un producto de un carrito.
+      summary: Eliminar un producto específico del carrito de compras
+      operationId: deleteProductFromCart
       parameters:
         - in: path
           name: cid
@@ -85,14 +81,12 @@ paths:
             type: string
       responses:
         "200":
-          description: Éxito. Devuelve el resultado de eliminar el producto del carrito.
-        "500":
-          description: Error al eliminar el producto del carrito.
+          description: Producto eliminado del carrito
 
-  /api/carts/{cid}/products:
+  /carts/{cid}/products:
     delete:
-      summary: Eliminar todos los productos del carrito
-      description: Endpoint para eliminar todos los productos de un carrito.
+      summary: Eliminar todos los productos del carrito de compras
+      operationId: deleteAllProductFromCart
       parameters:
         - in: path
           name: cid
@@ -101,14 +95,12 @@ paths:
             type: string
       responses:
         "200":
-          description: Éxito. Devuelve el resultado de eliminar todos los productos del carrito.
-        "500":
-          description: Error al eliminar todos los productos del carrito.
+          description: Todos los productos eliminados del carrito
 
-  /api/carts/{cid}/purchase:
+  /carts/{cid}/purchase:
     post:
-      summary: Realizar compra del carrito
-      description: Endpoint para realizar la compra de un carrito.
+      summary: Realizar la compra de productos en el carrito de compras
+      operationId: purchaseCart
       parameters:
         - in: path
           name: cid
@@ -117,10 +109,4 @@ paths:
             type: string
       responses:
         "200":
-          description: Éxito. Devuelve el resultado de la compra del carrito.
-        "404":
-          description: Carrito no encontrado.
-        "400":
-          description: No hay suficiente stock para algunos productos en el carrito.
-        "500":
-          description: Error en el proceso de compra.
+          description: Compra realizada con éxito

@@ -1,16 +1,32 @@
+openapi: 3.0.0
+info:
+  title: API de Productos
+  version: 1.0.0
 paths:
-  /api/products:
+  /products:
     get:
-      summary: Obtener lista de productos
-      description: Endpoint para obtener una lista de productos.
+      summary: Obtener todos los productos
+      operationId: getProducts
       responses:
         "200":
-          description: Éxito. Devuelve la lista de productos.
+          description: Lista de productos
 
-  /api/products/{pid}:
+    post:
+      summary: Agregar un nuevo producto
+      operationId: addProduct
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductInput"
+      responses:
+        "201":
+          description: Producto agregado exitosamente y redirigido a la lista de productos
+
+  /products/{pid}:
     get:
       summary: Obtener un producto por ID
-      description: Endpoint para obtener un producto por su ID.
+      operationId: getProductByID
       parameters:
         - in: path
           name: pid
@@ -19,13 +35,11 @@ paths:
             type: string
       responses:
         "200":
-          description: Éxito. Devuelve el producto solicitado.
-        "500":
-          description: Error al obtener el producto.
+          description: Detalles del producto
 
     put:
-      summary: Actualizar un producto
-      description: Endpoint para actualizar un producto por su ID.
+      summary: Modificar un producto por ID
+      operationId: updateProduct
       parameters:
         - in: path
           name: pid
@@ -36,16 +50,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ProductUpdateRequest"
+              $ref: "#/components/schemas/ProductInput"
       responses:
         "200":
-          description: Éxito. Devuelve el producto actualizado.
-        "500":
-          description: Error al actualizar el producto.
+          description: Producto modificado exitosamente
 
     delete:
-      summary: Eliminar un producto
-      description: Endpoint para eliminar un producto por su ID.
+      summary: Eliminar un producto por ID
+      operationId: deleteProduct
       parameters:
         - in: path
           name: pid
@@ -54,18 +66,31 @@ paths:
             type: string
       responses:
         "200":
-          description: Éxito. Devuelve el resultado de la eliminación.
-        "500":
-          description: Error al eliminar el producto.
+          description: Producto eliminado exitosamente
+
+  /products/admin:
+    get:
+      summary: Vista de administrador para agregar productos
+      operationId: adminView
+      responses:
+        "200":
+          description: Vista de administrador para agregar productos
 
 components:
   schemas:
-    ProductUpdateRequest:
+    ProductInput:
       type: object
       properties:
-        name:
+        title:
+          type: string
+        description:
           type: string
         price:
           type: number
         status:
           type: boolean
+      required:
+        - title
+        - description
+        - price
+        - status
