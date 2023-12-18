@@ -65,7 +65,7 @@ class UsersController {
   }
   async deleteUser(req, res) {
     try {
-      const id = req.params.id;
+      const id = req.params.uid;
       const result = await this.userService.deleteUser(id);
       return res.status(200).json(result);
     } catch (error) {
@@ -85,6 +85,28 @@ class UsersController {
       res.status(500).json({
         status:
           "[CONTROLLER]No se pudo eliminar los usuarios inactivos correctamente",
+        error,
+      });
+    }
+  }
+  async adminUsers(req, res) {
+    try {
+      let users = await this.userService.getUsers();
+      users = users.map((user) => {
+        return {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+        };
+      });
+      if (req.user.role === "admin") {
+        return res.render("adminUsers", { users: users });
+      }
+    } catch (error) {
+      console.error("Error al obtener los usuarios:", error);
+      res.status(500).json({
+        status: "[CONTROLLER]No se pudo obtener los usuarios correctamente",
         error,
       });
     }

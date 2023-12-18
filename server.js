@@ -12,11 +12,12 @@ const addLogger = require("./src/utils/logger");
 const swaggerJSDoc = require("swagger-jsdoc");
 const swaggerOptions = require("./src/utils/swagger");
 const swaggerUiExpress = require("swagger-ui-express");
+require("dotenv").config();
 
 const app = express();
-const PORT = 8080;
-const connection =
-  "mongodb+srv://admin:admin1234@cluster0.oizvoya.mongodb.net/?retryWrites=true&w=majority";
+const PORT = process.env.PORT || 8080;
+const connection = process.env.MONGO_CONNECTION;
+const sessionSecret = process.env.SESSION_SECRET;
 
 app.use(
   "/apidocs",
@@ -43,7 +44,7 @@ app.use(
     store: MongoStore.create({
       mongoUrl: connection,
     }),
-    secret: "secretSession",
+    secret: sessionSecret,
     resave: false,
     saveUninitialized: false,
     ttl: 60 * 60 * 24, // 24hrs

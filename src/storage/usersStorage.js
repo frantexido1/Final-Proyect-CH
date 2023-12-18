@@ -8,7 +8,7 @@ class UsersStorage {
   }
   async getUsers() {
     try {
-      const users = await this.userModel.find({}, "name email role");
+      const users = await this.userModel.find({}, "_id name email role");
       return users;
     } catch (error) {
       console.log(error);

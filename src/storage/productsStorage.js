@@ -71,9 +71,9 @@ class ProductsStorage {
         throw new Error("Producto no existe");
       }
       await this.productModel.deleteOne({ _id: id });
-      return { status: "deleted", product };
+      return { status: "deleted" };
     } catch (error) {
-      return { status: "Error al eliminar el producto:", product };
+      return { status: "Error al eliminar el producto" };
     }
   }
 }

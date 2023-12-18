@@ -24,7 +24,9 @@ products.delete(
 );
 
 products.get("/controller/admin", (req, res) => {
-  res.render("admin", req.user);
+  if (req.user.role === "admin" || req.user.role === "premium") {
+    res.render("createProduct");
+  }
 });
 
 module.exports = products;

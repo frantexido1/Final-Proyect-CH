@@ -1,4 +1,5 @@
 const ProductsService = require("../service/productService");
+const emailSender = require("../utils/emailSender");
 
 class ProductsController {
   constructor() {
@@ -76,13 +77,20 @@ class ProductsController {
         (req.user.role === "premium" && req.user._id === product.owner) ||
         req.user.role === "admin"
       ) {
-        return res.send(await this.service.deleteProduct(pid));
+        await emailSender.sendMail({
+          to: req.user.email,
+          subject: "Eliminación de producto premium",
+          html: `<p>Tu producto premium "${product.title}" ID:"${product._id}" ha sido eliminado.</p>`,
+          attachments: [],
+        });
+        return res.status(200).send(await this.service.deleteProduct(pid));
       }
       return res
         .status(403)
         .send("No tienes permiso para eliminar este producto");
     } catch (error) {
-      res.status(500).json({
+      console.log(error);
+      res.status(500).send({
         status: "[CONTROLLER]No se pudo eliminar el producto correctamente",
         error,
       });
