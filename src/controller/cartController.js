@@ -16,9 +16,15 @@ class CartController {
 
   async getCartByID(req, res) {
     try {
-      const cart = await this.service.getCartByID(req.params.cid);
+      const cartId = req.params.cid;
+      const cart = await this.service.getCartByID(cartId);
+      if (!cart) {
+        return res.status(404).json({
+          status: "[CONTROLLER]Carrito no encontrado",
+        });
+      }
       const products = cart.products.map((p) => p.toObject());
-      return res.render("cartList", { products });
+      return res.render("cartList", { products, cartId });
     } catch (error) {
       console.error(error);
       res

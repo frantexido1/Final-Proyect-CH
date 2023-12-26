@@ -1,65 +1,171 @@
 <style>
-  body { font-family: Arial, sans-serif; margin: 0; padding: 0;
-  background-color: #f0f0f0; } .container { max-width: 800px; margin: 0 auto;
-  padding: 20px; } .product-list { display: flex; flex-wrap: wrap;
-  justify-content: space-between; gap: 20px; margin-top: 20px; } .product-card {
-  border: 1px solid #ddd; background-color: #fff; padding: 20px; width:
-  calc(33.33% - 20px); box-sizing: border-box; box-shadow: 0 2px 4px rgba(0, 0,
-  0, 0.1); transition: transform 0.2s ease-in-out; } .product-card:hover {
-  transform: translateY(-5px); } .product-card img { max-width: 100%; height:
-  auto; margin-bottom: 10px; } .product-card h2 { font-size: 18px; margin: 10px
-  0; } .product-card p { font-size: 14px; margin: 0; color: #666; }
-  .product-card button { background-color: #007bff; color: #fff; border: none;
-  padding: 5px 10px; cursor: pointer; transition: background-color 0.2s
-  ease-in-out; } .product-card button:hover { background-color: #0056b3; } /*
-  Modal styles */ .modal { display: none; position: fixed; z-index: 1; left: 0;
-  top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,
-  0, 0, 0.4); } .modal-content { background-color: #fff; margin: 15% auto;
-  padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 80%; } .modal button { background-color: #007bff; color: #fff; border:
-  none; padding: 5px 10px; cursor: pointer; transition: background-color 0.2s
-  ease-in-out; margin-top: 10px; } .modal button:hover { background-color:
-  #0056b3; } .prev-button, .next-button { background-color: #007bff; color:
-  #fff; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;
-  font-size: 16px; margin-top: 20px; transition: background-color 0.2s
-  ease-in-out; } .prev-button:hover, .next-button:hover { background-color:
-  #0056b3; } .welcome-title { font-size: 24px; margin-bottom: 20px; text-align:
-  center; }
+  body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    color: #333;
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .welcome-title {
+    font-size: 28px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #007bff;
+  }
+
+  h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #333;
+  }
+
+  .product-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .product-card {
+    border: 1px solid #ddd;
+    background-color: #fff;
+    padding: 20px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+    width: calc(33.33% - 20px);
+    margin-bottom: 20px;
+  }
+
+  .product-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .product-card img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+  }
+
+  h2 {
+    font-size: 18px;
+    margin: 10px 0;
+    color: #333;
+  }
+
+  p {
+    font-size: 14px;
+    margin: 0;
+    color: #666;
+  }
+
+  button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    margin-top: 10px;
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }
+
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+
+  .modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 80%;
+  }
+
+  .modal button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    margin-top: 10px;
+  }
+
+  .modal button:hover {
+    background-color: #0056b3;
+  }
+
+  .prev-button,
+  .next-button,
+  .cart-link-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    margin-top: 10px;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .prev-button:hover,
+  .next-button:hover,
+  .cart-link-button:hover {
+    background-color: #0056b3;
+  }
 </style>
+
 <div class="container">
   <h1 class="welcome-title">¡Bienvenido, {{user.name}}!</h1>
+  <a href="/api/carts/{{user.cartID}}" class="cart-link-button">Ver Carrito</a>
+
   <h2>Lista de productos</h2>
   <div class="product-list">
     {{#each products.docs}}
-      <div class="product-card">
-        <img src="{{this.thumbnail}}" alt="{{this.title}} Thumbnail" />
-        <h2>{{this.title}}</h2>
-        <p>Precio: ${{this.price}}</p>
-        <button onclick="showDescriptionModal('{{this.description}}')">Ver más</button>
-        <button onclick="addToCart('{{user._id}}' , '{{this._id}}')">Agregar al
-          carrito</button>
-
+    <div class="product-card">
+      <img src="{{this.thumbnail}}" alt="{{this.title}} Thumbnail" />
+      <h2>{{this.title}}</h2>
+      <p>Precio: ${{this.price}}</p>
+      <button onclick="showDescriptionModal('{{this.description}}')">Ver más</button>
+      <button onclick="addToCart('{{user._id}}' , '{{this._id}}')">Agregar al carrito</button>
+    </div>
+    <div id="descriptionModal" class="modal">
+      <div class="modal-content">
+        <p id="modalDescription"></p>
+        <button onclick="addToCart('{{user._id}}','{{this._id}}')">Agregar al carrito</button>
       </div>
-      <div id="descriptionModal" class="modal">
-        <div class="modal-content">
-          <p id="modalDescription"></p>
-          <button onclick="addToCart('{{user._id}}','{{this._id}}')">Agregar al
-            carrito</button>
-        </div>
-      </div>
+    </div>
     {{/each}}
   </div>
   {{#if products.hasPrevPage}}
-
-    <a href="/api/products?page={{products.prevPage}}"><button
-        class="prev-button"
-      >Pagina Previa</button></a>
+  <a href="/api/products?page={{products.prevPage}}" class="prev-button">Pagina Previa</a>
   {{/if}}
   {{#if products.hasNextPage}}
-    <a href="/api/products?page={{products.nextPage}}"><button
-        class="prev-button"
-      >Pagina Siguiente</button></a>
+  <a href="/api/products?page={{products.nextPage}}" class="next-button">Pagina Siguiente</a>
   {{/if}}
 </div>
+
 
 <script src="/js/product.js"></script>

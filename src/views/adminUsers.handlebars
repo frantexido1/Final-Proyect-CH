@@ -1,3 +1,54 @@
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    color: #333;
+  }
+
+  h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #007bff;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  th,
+  td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+  }
+
+  th {
+    background-color: #007bff;
+    color: #fff;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  button {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+  }
+
+  button:hover {
+    background-color: #c82333;
+  }
+</style>
+
 <h1>Admin Panel</h1>
 
 <table>
@@ -11,22 +62,32 @@
   </thead>
   <tbody>
     {{#each users}}
-      <tr>
-        <td>{{this.name}}</td>
-        <td>{{this.email}}</td>
-        <td>{{this.role}}</td>
-        <td>
-          <button onclick="deleteUser({{this.id}})">Eliminar</button>
-        </td>
-      </tr>
+    <tr>
+      <td>{{this.name}}</td>
+      <td>{{this.email}}</td>
+      <td>{{this.role}}</td>
+      <td>
+        <button onclick="deleteUser('{{this.id}}')">Eliminar</button>
+      </td>
+    </tr>
     {{/each}}
   </tbody>
 </table>
 
 <script>
-  async function deleteUser(userId) { try { const response = await
-  fetch(`/api/users/${userId}`, { method: 'DELETE', headers: { 'Content-Type':
-  'application/json', }, }); if (response.ok) { location.reload(); } else {
-  console.error('Error al eliminar el usuario'); } } catch (error) {
-  console.error('Error en la solicitud de eliminación:', error); } }
+  async function deleteUser(userId) {
+    try {
+      const response = await
+        fetch(`/api/users/${userId}`, {
+          method: 'DELETE', headers: {
+            'Content-Type':
+              'application/json',
+          },
+        }); if (response.ok) { location.reload(); } else {
+          console.error('Error al eliminar el usuario');
+        }
+    } catch (error) {
+      console.error('Error en la solicitud de eliminación:', error);
+    }
+  }
 </script>
