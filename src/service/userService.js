@@ -19,8 +19,5 @@ class UsersService {
   async deleteUser(id) {
     return this.storage.deleteUser(id);
   }
-  async deleteInactiveUsers() {
-    return this.storage.deleteInactiveUsers();
-  }
 }
 module.exports = UsersService;
